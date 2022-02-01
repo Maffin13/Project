@@ -57,8 +57,8 @@ const myScroll = new Scroll(
 
     move() {
         this.element.style = `
-            margin-top: ${this.element.innerHeight}px;
-            margin-left: ${this.element.innerWidth}px;
+            margin-top: ${random(0, innerHeight - this.element.clientHeight)}px;
+            margin-left: ${random(0, innerWidth - this.element.clientWidth)}px;
             transition: 0.5s;
         `
     }
@@ -79,3 +79,19 @@ const headerBtn = document.querySelectorAll('.header__nav-btn'),
       })
   })    
 
+
+
+const title = document.querySelector('.header__content'),
+      text = document.querySelector('.header__content .title'),
+      textContent = text.innerHTML;
+ text.style.display = 'none';
+ for(let i = 0; i < textContent.length; i++) {
+    (function(i) {
+                setTimeout(function() {
+                    let texts = document.createTextNode(textContent[i])
+                    let span = document.createElement('span');
+                    span.appendChild(texts);
+                    title.appendChild(span);
+                }, 100 * i);
+            }(i));
+ }     
