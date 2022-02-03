@@ -46,29 +46,6 @@ const myScroll = new Scroll(
 
 
 
- class Hover {
-    constructor(selector) {
-        this.element = document.querySelector(selector)
-
-        this.element.addEventListener('mouseover', () => {
-            this.move()
-        })
-    }
-
-    move() {
-        this.element.style = `
-            margin-top: ${random(0, innerHeight - this.element.clientHeight)}px;
-            margin-left: ${random(0, innerWidth - this.element.clientWidth)}px;
-            transition: 0.5s;
-        `
-    }
-
-    random(min, max) {
-        return Math.floor(Math.random() * (max - min) + min)
-    }
-}
-
-let hover = new Hover('.header__content')
 
 const headerBtn = document.querySelectorAll('.header__nav-btn'),
       headerMenu = document.querySelector('.header__menu');
@@ -81,17 +58,50 @@ const headerBtn = document.querySelectorAll('.header__nav-btn'),
 
 
 
-const title = document.querySelector('.header__content'),
-      text = document.querySelector('.header__content .title'),
-      textContent = text.innerHTML;
- text.style.display = 'none';
- for(let i = 0; i < textContent.length; i++) {
-    (function(i) {
-                setTimeout(function() {
-                    let texts = document.createTextNode(textContent[i])
-                    let span = document.createElement('span');
-                    span.appendChild(texts);
-                    title.appendChild(span);
-                }, 100 * i);
-            }(i));
- }     
+ 
+
+ class Hover {
+    constructor(selector) {
+        this.headerContent = document.querySelector(selector)
+
+
+        this.headerContent.addEventListener('mouseover', () => this.move())
+    }
+
+    move() {
+        this.headerContent.style.marginLeft = this.random(0, innerWidth - this.headerContent.clientWidth) + 'px'
+        this.headerContent.style.marginTop = this.random(0, innerHeight - this.headerContent.clientHeight) + 'px'
+    }
+
+
+    random(min, max) {
+        return Math.floor(Math.random() * (max + 1 - min) + min)
+    }
+}
+
+
+const hover = new Hover('.header__content')
+
+
+class Typing {
+    constructor(obj) {
+        this.element = document.querySelector(obj.h1)
+
+        this.content = this.element.innerHTML
+        this.fullText = ''
+        this.type()
+    }
+
+    type(i = 0) {
+        this.fullText += this.content[i]
+        this.element.innerHTML = this.fullText
+        if(this.fullText != this.content) {
+            i++
+            setTimeout(() => this.type(i), 500)
+        }
+    }
+}
+
+const type = new Typing({
+    h1: '.header__content h1'
+})
